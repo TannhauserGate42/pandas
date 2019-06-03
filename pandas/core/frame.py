@@ -34,6 +34,7 @@ from pandas.util._validators import (validate_bool_kwarg,
 from pandas.compat import PY36, raise_with_traceback
 from pandas.compat.numpy import function as nv
 from pandas.core.arrays.sparse import SparseFrameAccessor
+from pandas.core.layout import array_layout
 from pandas.core.dtypes.cast import (
     maybe_upcast,
     cast_scalar_to_array,
@@ -409,6 +410,8 @@ class DataFrame(NDFrame):
                                    copy=copy)
 
         elif isinstance(data, (np.ndarray, Series, Index)):
+            if isinstance(data, np.ndarray):
+                data = array_layout.apply(data)
             if data.dtype.names:
                 data_columns = list(data.dtype.names)
                 data = {k: data[k] for k in data_columns}

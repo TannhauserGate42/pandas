@@ -36,6 +36,9 @@ except ImportError as e:  # pragma: no cover
 
 from datetime import datetime
 
+import pandas.core.layout
+pandas.core.layout.array_layout.order = 'F'
+
 from pandas._config import (get_option, set_option, reset_option,
                             describe_option, option_context, options)
 

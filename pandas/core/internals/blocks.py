@@ -31,6 +31,7 @@ from pandas.core.dtypes.generic import (
 from pandas.core.dtypes.missing import (
     _isna_compat, array_equivalent, isna, notna)
 
+from pandas.core.layout import array_layout
 import pandas.core.algorithms as algos
 from pandas.core.arrays import (
     Categorical, DatetimeArray, ExtensionArray, PandasDtype, TimedeltaArray)
@@ -725,7 +726,7 @@ class Block(PandasObject):
         values = self.values
         if deep:
             if isinstance(values, np.ndarray):
-                values = values.copy(order='F')
+                values = array_layout.copy_transposed(values)
             else:
                 values = values.copy()
         return self.make_block_same_class(values, ndim=self.ndim)
